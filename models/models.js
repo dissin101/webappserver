@@ -1,6 +1,10 @@
 const sequelize = require("../db");
 const {DataTypes} = require("sequelize");
 
+/**
+ * Пользователь
+ * @type {ModelCtor<Model>}
+ */
 const User = sequelize.define('user', {
     id: {type: DataTypes.INTEGER, primaryKey: true, autoIncrement: true},
     email: {type: DataTypes.STRING, unique: true,},
@@ -8,15 +12,27 @@ const User = sequelize.define('user', {
     role: {type: DataTypes.STRING, defaultValue: "USER"},
 });
 
+/**
+ * Корзина
+ * @type {ModelCtor<Model>}
+ */
 const Basket = sequelize.define('basket', {
     id: {type: DataTypes.INTEGER, primaryKey: true, autoIncrement: true},
 });
 
-const BasketDevice = sequelize.define('basket_device', {
+/**
+ * Предмет в корзине
+ * @type {ModelCtor<Model>}
+ */
+const BasketItem = sequelize.define('basket_item', {
     id: {type: DataTypes.INTEGER, primaryKey: true, autoIncrement: true},
 });
 
-const Device = sequelize.define('device', {
+/**
+ * Предмет
+ * @type {ModelCtor<Model>}
+ */
+const Item = sequelize.define('item', {
     id: {type: DataTypes.INTEGER, primaryKey: true, autoIncrement: true},
     name: {type: DataTypes.STRING, unique: true, allowNull: false},
     price: {type: DataTypes.INTEGER, allowNull: false},
@@ -24,22 +40,38 @@ const Device = sequelize.define('device', {
     img: {type: DataTypes.STRING, allowNull: false},
 });
 
+/**
+ * Тип предмета
+ * @type {ModelCtor<Model>}
+ */
 const Type = sequelize.define('type', {
     id: {type: DataTypes.INTEGER, primaryKey: true, autoIncrement: true},
     name: {type: DataTypes.STRING, unique: true, allowNull: false},
 });
 
+/**
+ * Бренд автомобиля
+ * @type {ModelCtor<Model>}
+ */
 const Brand = sequelize.define('brand', {
     id: {type: DataTypes.INTEGER, primaryKey: true, autoIncrement: true},
     name: {type: DataTypes.STRING, unique: true, allowNull: false},
 });
 
+/**
+ * Рейтинг предмета
+ * @type {ModelCtor<Model>}
+ */
 const Rating = sequelize.define('rating', {
     id: {type: DataTypes.INTEGER, primaryKey: true, autoIncrement: true},
     rate: {type: DataTypes.INTEGER, allowNull: false},
 });
 
-const DeviceInfo = sequelize.define('device_info', {
+/**
+ * Параметры товара
+ * @type {ModelCtor<Model>}
+ */
+const ItemInfo = sequelize.define('item_info', {
     id: {type: DataTypes.INTEGER, primaryKey: true, autoIncrement: true},
     title: {type: DataTypes.STRING, allowNull: false},
     description: {type: DataTypes.STRING, allowNull: false},
@@ -56,23 +88,23 @@ Basket.belongsTo(User);
 User.hasMany(Rating);
 Rating.belongsTo(User);
 
-Basket.hasMany(BasketDevice);
-BasketDevice.belongsTo(Basket);
+Basket.hasMany(BasketItem);
+BasketItem.belongsTo(Basket);
 
-Type.hasMany(Device);
-Device.belongsTo(Type);
+Type.hasMany(Item);
+Item.belongsTo(Type);
 
-Brand.hasMany(Device);
-Device.belongsTo(Brand);
+Brand.hasMany(Item);
+Item.belongsTo(Brand);
 
-Device.hasMany(Rating);
-Rating.belongsTo(Device);
+Item.hasMany(Rating);
+Rating.belongsTo(Item);
 
-Device.hasMany(BasketDevice);
-BasketDevice.belongsTo(Device);
+Item.hasMany(BasketItem);
+BasketItem.belongsTo(Item);
 
-Device.hasMany(DeviceInfo, {as: 'info'});
-DeviceInfo.belongsTo(Device);
+Item.hasMany(ItemInfo, {as: 'info'});
+ItemInfo.belongsTo(Item);
 
 Type.belongsToMany(Brand, {through: TypeBrand });
 Brand.belongsToMany(Type, {through: TypeBrand });
@@ -80,11 +112,11 @@ Brand.belongsToMany(Type, {through: TypeBrand });
 module.exports = {
     User,
     Basket,
-    BasketDevice,
-    Device,
+    BasketItem,
+    Item,
     Type,
     Brand,
     Rating,
     TypeBrand,
-    DeviceInfo
+    ItemInfo
 };

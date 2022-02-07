@@ -3,6 +3,13 @@ const bcrypt = require("bcrypt");
 const {User, Basket} = require("../models/models");
 const jwt = require("jsonwebtoken");
 
+/**
+ * Генерация JWT-тонека
+ * @param id пользователя
+ * @param email пользователя
+ * @param role пользователя
+ * @returns {*}
+ */
 const generateJwt = (id, email, role) => {
     return jwt.sign(
         {id, email, role},
@@ -12,6 +19,13 @@ const generateJwt = (id, email, role) => {
 }
 
 class UserController {
+    /**
+     * Регистрация нового пользователя
+     * @param req
+     * @param res
+     * @param next
+     * @returns {Promise<*>}
+     */
     async registration (req, res, next) {
         const {email, password, role} = req.body;
 
@@ -36,6 +50,13 @@ class UserController {
         return res.json(token);
     }
 
+    /**
+     * Авторизация пользователя
+     * @param req
+     * @param res
+     * @param next
+     * @returns {Promise<*>}
+     */
     async login (req, res, next) {
         const {email, password} = req.body;
         const user = await User.findOne({where: {email}});
@@ -55,6 +76,12 @@ class UserController {
         return res.json({token});
     }
 
+    /**
+     * Генерация нового токена пользователя
+     * @param req
+     * @param res
+     * @returns {Promise<*>}
+     */
     async check (req, res) {
         const token = generateJwt(req.user.id, req.user.email, req.user.role);
 
