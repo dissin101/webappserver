@@ -41,6 +41,16 @@ const Item = sequelize.define('item', {
 });
 
 /**
+ * Категория предмета
+ * @type {ModelCtor<Model>}
+ */
+const Category = sequelize.define('category', {
+    id: {type: DataTypes.INTEGER, primaryKey: true, autoIncrement: true},
+    parentId: {type: DataTypes.INTEGER, allowNull: true, defaultValue: null},
+    name: {type: DataTypes.STRING, unique: true},
+})
+
+/**
  * Тип предмета
  * @type {ModelCtor<Model>}
  */
@@ -91,6 +101,9 @@ Rating.belongsTo(User);
 Basket.hasMany(BasketItem);
 BasketItem.belongsTo(Basket);
 
+Category.hasMany(Item);
+Item.belongsTo(Category);
+
 Type.hasMany(Item);
 Item.belongsTo(Type);
 
@@ -113,6 +126,7 @@ module.exports = {
     User,
     Basket,
     BasketItem,
+    Category,
     Item,
     Type,
     Brand,
