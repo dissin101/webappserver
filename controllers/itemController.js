@@ -13,11 +13,14 @@ class ItemController {
      */
     async create (req, res, next) {
         try {
-            let {name, price, brandId, typeId, info} = req.body;
+            let {name, price, typeId, brandId, modelId, categoryId, info} = req.body;
+
+            console.log(req.body)
+
             const {img} = req.files;
             let fileName = uuid.v4() + ".jpg";
             img.mv(path.resolve(__dirname, "..", "static", fileName));
-            const item = await Item.create({name, price, brandId, typeId, img: fileName});
+            const item = await Item.create({name, price, typeId, brandId, modelId, categoryId, img: fileName});
 
             if (info){
                 info = JSON.parse(info);
@@ -44,26 +47,14 @@ class ItemController {
      * @returns {Promise<*>}
      */
     async getAll (req, res) {
-        let {brandId, typeId, limit, page} = req.query;
+        let {limit, page} = req.query;
+        const params = req.body;
+
         page = page || 1;
         limit = limit || 9;
-        let offset = page * limit - limit;
-        let devices;
-        if (!brandId && !typeId){
-            devices = await Item.findAndCountAll({limit, offset});
-        }
+        const offset = page * limit - limit;
 
-        if (brandId && !typeId){
-            devices = await Item.findAndCountAll({where: {brandId}, limit, offset});
-        }
-
-        if (!brandId && typeId){
-            devices = await Item.findAndCountAll({where: {typeId}, limit, offset});
-        }
-
-        if (brandId && typeId){
-            devices = await Item.findAndCountAll({where: {brandId, typeId}, limit, offset});
-        }
+        const devices = await Item.findAndCountAll({where: params, limit, offset});
 
         return res.json(devices);
     }

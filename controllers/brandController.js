@@ -1,5 +1,7 @@
-const {Brand, Type} = require("../models/models");
+const {Brand} = require("../models/models");
 const ApiError = require("../error/apiError");
+const uuid = require("uuid");
+const path = require("path");
 
 class BrandController {
     /**
@@ -8,10 +10,17 @@ class BrandController {
      * @param res
      * @returns {Promise<*>}
      */
-    async create (req, res) {
-        const {name} = req.body;
-        const brand = await Brand.create({name});
-        return res.json(brand);
+    async create (req, res, next) {
+        try {
+            const {name} = req.body;
+            const {img} = req.files;
+            let fileName = uuid.v4() + ".jpg";
+            img.mv(path.resolve(__dirname, "..", "static", fileName));
+            const brand = await Brand.create({name, img: 'http://localhost:' + process.env.PORT + "/" + fileName});
+            return res.json(brand);
+        } catch (e){
+            next(ApiError.badRequest(e.message));
+        }
     }
 
     /**

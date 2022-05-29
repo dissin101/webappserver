@@ -45,6 +45,7 @@ const Item = sequelize.define('item', {
  * @type {ModelCtor<Model>}
  */
 const Category = sequelize.define('category', {
+    /*id: {type: DataTypes.UUID, defaultValue: DataTypes.UUIDV4, primaryKey: true},*/
     id: {type: DataTypes.INTEGER, primaryKey: true, autoIncrement: true},
     parentId: {type: DataTypes.INTEGER, allowNull: true, defaultValue: null},
     name: {type: DataTypes.STRING, unique: true},
@@ -64,6 +65,16 @@ const Type = sequelize.define('type', {
  * @type {ModelCtor<Model>}
  */
 const Brand = sequelize.define('brand', {
+    id: {type: DataTypes.INTEGER, primaryKey: true, autoIncrement: true},
+    name: {type: DataTypes.STRING, unique: true, allowNull: false},
+    img: {type: DataTypes.STRING, allowNull: false},
+});
+
+/**
+ * Модель автомобиля
+ * @type {ModelCtor<Model>}
+ */
+const Model = sequelize.define('model', {
     id: {type: DataTypes.INTEGER, primaryKey: true, autoIncrement: true},
     name: {type: DataTypes.STRING, unique: true, allowNull: false},
 });
@@ -110,6 +121,9 @@ Item.belongsTo(Type);
 Brand.hasMany(Item);
 Item.belongsTo(Brand);
 
+Brand.hasMany(Model);
+Item.belongsTo(Model);
+
 Item.hasMany(Rating);
 Rating.belongsTo(Item);
 
@@ -132,5 +146,6 @@ module.exports = {
     Brand,
     Rating,
     TypeBrand,
-    ItemInfo
+    ItemInfo,
+    Model
 };

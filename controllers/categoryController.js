@@ -10,7 +10,6 @@ class CategoryController {
      */
     async create (req, res) {
         const {name, parentId} = req.body;
-        console.log("TEST", req.body)
         const category = await Category.create({name, parentId});
         return res.json(category);
     }
