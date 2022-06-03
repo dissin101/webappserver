@@ -8,7 +8,7 @@ const router = require("./routes/index");
 const errorHandler = require("./middleware/errorHandlingMiddleware");
 const path = require("path");
 
-const PORT = process.env.PORT;
+const PORT = process.env.PORT || 5000;
 
 const app = express();
 
