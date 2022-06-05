@@ -13,16 +13,14 @@ class ItemController {
      */
     async create (req, res, next) {
         try {
-            let {name, price, typeId, brandId, modelId, categoryId, info} = req.body;
-
-            console.log(req.body)
+            let {name, price, typeId, brandId, modelId, categoryId, info, description} = req.body;
 
             const {img} = req.files;
             let fileName = uuid.v4() + ".jpg";
             // for Heroku
             img.mv(path.join(__dirname, "..", "public", fileName));
             //img.mv(path.resolve(__dirname, "..", "static", fileName));
-            const item = await Item.create({name, price, typeId, brandId, modelId, categoryId, img: fileName});
+            const item = await Item.create({name, price, typeId, brandId, modelId, categoryId, img: fileName, description});
 
             if (info){
                 info = JSON.parse(info);
