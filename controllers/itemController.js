@@ -28,7 +28,7 @@ class ItemController {
                 info.forEach(i =>
                     ItemInfo.create({
                         title: i.title,
-                        description: i.description,
+                        description: item.description,
                         deviceId: item.id
                     })
                 );
