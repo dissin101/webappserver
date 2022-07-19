@@ -1,6 +1,6 @@
-const Router = require("express");
-const router = new Router();
-const itemRouter = require("./itemRouter");
+import {Router} from 'express';
+import itemRouter from "./itemRouter";
+const router = Router();
 const brandRouter = require("./brandRouter");
 const modelRouter = require("./modelRouter");
 const typeRouter = require("./typeRouter");

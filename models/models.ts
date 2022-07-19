@@ -32,13 +32,12 @@ const BasketItem = sequelize.define('basket_item', {
  * Предмет
  * @type {ModelCtor<Model>}
  */
-const Item = sequelize.define('item', {
+export const Item = sequelize.define('item', {
     id: {type: DataTypes.INTEGER, primaryKey: true, autoIncrement: true},
     name: {type: DataTypes.STRING, unique: true, allowNull: false},
     price: {type: DataTypes.INTEGER, allowNull: false},
-    rating: {type: DataTypes.INTEGER, defaultValue: 0},
-    img: {type: DataTypes.STRING, allowNull: false},
     description: {type: DataTypes.STRING, allowNull: false},
+    img: {type: DataTypes.STRING, allowNull: false},
 });
 
 /**
@@ -93,7 +92,7 @@ const Rating = sequelize.define('rating', {
  * Параметры товара
  * @type {ModelCtor<Model>}
  */
-const ItemInfo = sequelize.define('item_info', {
+export const ItemInfo = sequelize.define('item_info', {
     id: {type: DataTypes.INTEGER, primaryKey: true, autoIncrement: true},
     title: {type: DataTypes.STRING, allowNull: false},
     description: {type: DataTypes.STRING, allowNull: false},
