@@ -22,22 +22,26 @@ const itemCreate = async (req: IRequest, res: Response, next: NextFunction) => {
 
         img.mv(path.join(__dirname, "../..", "public", fileName));
 
-        const item = await Item.create({...params, img: fileName});
+        const itemParams = {...params};
+        delete itemParams.info;
+
+        const item = await Item.create({...itemParams, img: fileName});
 
         if (params.info){
             params.info = JSON.parse(params.info);
 
-            params.info.forEach((title: string) =>
+            params.info.forEach(({title, description} : {title: string, description: string}) =>
                 ItemInfo.create({
                     title,
-                    description: item.description,
-                    deviceId: item.id
+                    description,
+                    itemId: item.id
                 })
             );
         }
 
         return res.json(item);
     } catch (error: any) {
+        console.log("ERR: ", error)
         next(apiError.badRequest(res, error))
     }
 }
