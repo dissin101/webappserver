@@ -16,8 +16,6 @@ const itemCreate = async (req: IRequest, res: Response, next: NextFunction) => {
     try {
         const params = req.body;
 
-        console.log(params)
-
         const {img} = req.files;
 
         let fileName = uuid() + ".jpg";

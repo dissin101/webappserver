@@ -1,13 +1,14 @@
 import {Router} from "express";
 import itemCreate from "../controllers/itemController/itemCreate";
-/*todo Edit import*/
-const itemController = require("../controllers/itemController");
+import itemGetOne from "../controllers/itemController/itemGetOne";
+import itemGetAll from "../controllers/itemController/itemGetAll";
+
 const checkRole = require("../middleware/checkRoleMiddleware");
 
 const router = Router();
 
 router.post("/add", checkRole('ADMIN'), itemCreate);
-router.post("/", itemController.getAll);
-router.get("/:id", itemController.getOne);
+router.post("/", itemGetAll);
+router.get("/:id", itemGetOne);
 
 export default router;

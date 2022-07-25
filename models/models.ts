@@ -33,11 +33,29 @@ const BasketItem = sequelize.define('basket_item', {
  * @type {ModelCtor<Model>}
  */
 export const Item = sequelize.define('item', {
-    id: {type: DataTypes.INTEGER, primaryKey: true, autoIncrement: true},
-    name: {type: DataTypes.STRING, unique: true, allowNull: false},
-    price: {type: DataTypes.INTEGER, allowNull: false},
-    description: {type: DataTypes.STRING, allowNull: false},
-    img: {type: DataTypes.STRING, allowNull: false},
+    id: {
+        type: DataTypes.UUID,
+        defaultValue: DataTypes.UUIDV4,
+        primaryKey: true,
+        allowNull: false,
+    },
+    name: {
+        type: DataTypes.STRING,
+        unique: true,
+        allowNull: false
+    },
+    price: {
+        type: DataTypes.INTEGER,
+        allowNull: false
+    },
+    description: {
+        type: DataTypes.STRING,
+        allowNull: false
+    },
+    img: {
+        type: DataTypes.STRING,
+        allowNull: false
+    },
 });
 
 /**
@@ -45,10 +63,19 @@ export const Item = sequelize.define('item', {
  * @type {ModelCtor<Model>}
  */
 const Category = sequelize.define('category', {
-    /*id: {type: DataTypes.UUID, defaultValue: DataTypes.UUIDV4, primaryKey: true},*/
-    id: {type: DataTypes.INTEGER, primaryKey: true, autoIncrement: true},
-    parentId: {type: DataTypes.INTEGER, allowNull: true, defaultValue: null},
-    name: {type: DataTypes.STRING, unique: true},
+    id: {
+        type: DataTypes.UUID,
+        defaultValue: DataTypes.UUIDV4,
+        primaryKey: true,
+        allowNull: false,
+    },
+    parentId: {
+        type: DataTypes.UUID,
+        allowNull: true,
+        defaultValue: null},
+    name: {
+        type: DataTypes.STRING,
+        unique: true},
 })
 
 /**
@@ -56,7 +83,12 @@ const Category = sequelize.define('category', {
  * @type {ModelCtor<Model>}
  */
 const Type = sequelize.define('type', {
-    id: {type: DataTypes.INTEGER, primaryKey: true, autoIncrement: true},
+    id: {
+        type: DataTypes.UUID,
+        defaultValue: DataTypes.UUIDV4,
+        primaryKey: true,
+        allowNull: false,
+    },
     name: {type: DataTypes.STRING, unique: true, allowNull: false},
 });
 
@@ -65,7 +97,12 @@ const Type = sequelize.define('type', {
  * @type {ModelCtor<Model>}
  */
 const Brand = sequelize.define('brand', {
-    id: {type: DataTypes.INTEGER, primaryKey: true, autoIncrement: true},
+    id: {
+        type: DataTypes.UUID,
+        defaultValue: DataTypes.UUIDV4,
+        primaryKey: true,
+        allowNull: false,
+    },
     name: {type: DataTypes.STRING, unique: true, allowNull: false},
     img: {type: DataTypes.STRING, allowNull: false},
 });
@@ -74,8 +111,13 @@ const Brand = sequelize.define('brand', {
  * Модель автомобиля
  * @type {ModelCtor<Model>}
  */
-const Model = sequelize.define('model', {
-    id: {type: DataTypes.INTEGER, primaryKey: true, autoIncrement: true},
+export const Model = sequelize.define('model', {
+    id: {
+        type: DataTypes.UUID,
+        defaultValue: DataTypes.UUIDV4,
+        primaryKey: true,
+        allowNull: false,
+    },
     name: {type: DataTypes.STRING, unique: true, allowNull: false},
 });
 
@@ -93,13 +135,22 @@ const Rating = sequelize.define('rating', {
  * @type {ModelCtor<Model>}
  */
 export const ItemInfo = sequelize.define('item_info', {
-    id: {type: DataTypes.INTEGER, primaryKey: true, autoIncrement: true},
+    id: {
+        type: DataTypes.UUID,
+        defaultValue: DataTypes.UUIDV4,
+        primaryKey: true,
+        allowNull: false,
+    },
     title: {type: DataTypes.STRING, allowNull: false},
     description: {type: DataTypes.STRING, allowNull: false},
 });
 
 const TypeBrand = sequelize.define('type_brand', {
-    id: {type: DataTypes.INTEGER, primaryKey: true, autoIncrement: true},
+    id: {
+        type: DataTypes.UUID,
+        defaultValue: DataTypes.UUIDV4,
+        primaryKey: true
+    },
 });
 
 
@@ -133,8 +184,8 @@ BasketItem.belongsTo(Item);
 Item.hasMany(ItemInfo, {as: 'info'});
 ItemInfo.belongsTo(Item);
 
-Type.belongsToMany(Brand, {through: TypeBrand });
-Brand.belongsToMany(Type, {through: TypeBrand });
+Type.belongsToMany(Brand, {through: TypeBrand});
+Brand.belongsToMany(Type, {through: TypeBrand});
 
 module.exports = {
     User,

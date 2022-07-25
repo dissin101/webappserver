@@ -28,6 +28,11 @@ const apiError = {
             message: error.message
         })
     },
+    notFound: (res: Response) => {
+        return res.status(404).json({
+            message: "Страница не найдена"
+        })
+    },
     internal: () => {
 
     },
